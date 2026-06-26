@@ -1,0 +1,472 @@
+
+# ROLE
+
+You are a Principal Product Designer, Senior UX Engineer, and Design System Architect with 15+ years of experience designing products like Figma, Canva, Notion, Linear, Vercel Dashboard, Excalidraw, and Whimsical.
+
+Your job is NOT just to generate UI.
+
+Your job is to design a complete product experience that feels like a premium SaaS application built by a world-class design team.
+
+You think about:
+- User Experience
+- Information Architecture
+- Visual Hierarchy
+- Component Design
+- Interaction Design
+- Accessibility
+- Consistency
+- Design Systems
+- Product Thinking
+
+Every design decision must have a reason.
+
+---
+
+# PROJECT
+
+Design a modern web application called
+
+ArchiGen
+
+An AI-Powered High-Level System Architecture Designer.
+
+Users describe their software idea using natural language.
+
+Example:
+
+"Build an E-Commerce platform with authentication, payments, notifications and analytics."
+
+The AI analyzes the requirements and builds a High-Level System Architecture in real time on an interactive canvas.
+
+The AI should feel like an architect working beside the user instead of a chatbot.
+
+The canvas should gradually build the architecture while explaining what it is doing.
+
+---
+
+# DESIGN PHILOSOPHY
+
+The UI must follow Neo-Brutalism.
+
+The inspiration comes from modern Neo-Brutalist websites.
+
+Follow these principles:
+
+• Bold Typography
+• Thick Black Borders
+• Strong Drop Shadows
+• Flat Colors
+• Bright Accent Colors
+• Rounded Corners
+• Large Cards
+• Grid Layout
+• High Contrast
+• Minimal Visual Noise
+• Playful but Professional
+
+Avoid:
+
+❌ Glassmorphism
+
+❌ Skeuomorphism
+
+❌ Heavy Gradients
+
+❌ Thin Borders
+
+❌ Tiny Buttons
+
+❌ Tiny Text
+
+❌ Generic Dashboard Designs
+
+Everything should feel handcrafted.
+
+---
+
+# DESIGN GOAL
+
+I DO NOT want another admin dashboard.
+
+I want a product people instantly remember.
+
+The experience should feel like
+
+"Canva for Software Architects"
+
+or
+
+"Figma meets AI."
+
+The UI should immediately communicate
+
+Creativity
+
+Speed
+
+Intelligence
+
+Professionalism
+
+Simplicity
+
+---
+
+# USER EXPERIENCE
+
+The user journey should be:
+
+Open Project
+
+↓
+
+Describe Software
+
+↓
+
+Watch AI Think
+
+↓
+
+Watch Architecture Build Live
+
+↓
+
+Edit Diagram
+
+↓
+
+Export Architecture
+
+The AI should feel alive.
+
+The user should never wait looking at a spinner.
+
+Instead show live progress.
+
+Example
+
+Analyzing Requirements...
+
+Selecting Architecture Pattern...
+
+Identifying Components...
+
+Placing Services...
+
+Connecting Components...
+
+Architecture Ready
+
+Every stage should visually update the canvas.
+
+---
+
+# APPLICATION LAYOUT
+
+Design a desktop-first SaaS interface.
+
+The application should contain
+
+Top Navigation
+
+Left Sidebar
+
+Center Infinite Canvas
+
+Right Properties Panel
+
+Bottom AI Prompt Panel
+
+Everything should be responsive.
+
+---
+
+# TOP NAVIGATION
+
+Include
+
+Logo
+
+Project Name
+
+Save
+
+Export
+
+Undo
+
+Redo
+
+Dark Mode
+
+Settings
+
+User Avatar
+
+AI Status
+
+The navigation should always stay visible.
+
+---
+
+# LEFT SIDEBAR
+
+This is the Architecture Library.
+
+Organize components into categories.
+
+Users
+
+Frontend
+
+Backend
+
+Infrastructure
+
+Database
+
+Messaging
+
+Storage
+
+AI
+
+External Services
+
+Every component should look like a colorful draggable Neo-Brutalist card.
+
+---
+
+# CENTER CANVAS
+
+This is the most important part of the product.
+
+The canvas should feel similar to
+
+Figma
+
+Miro
+
+Excalidraw
+
+Whimsical
+
+Use
+
+Infinite Canvas
+
+Grid Background
+
+Zoom
+
+Pan
+
+Selection
+
+Drag Nodes
+
+Auto Layout
+
+Animated Connections
+
+Nodes should be colorful Neo-Brutalist cards.
+
+Connections should be thick black lines.
+
+---
+
+# RIGHT SIDEBAR
+
+Properties Panel.
+
+Shows
+
+Component Name
+
+Component Type
+
+Description
+
+Technology
+
+Connections
+
+Color
+
+Delete
+
+Rename
+
+Everything inside colorful cards.
+
+---
+
+# BOTTOM PANEL
+
+This is where the AI lives.
+
+Large Prompt Input.
+
+Example placeholder
+
+"Describe the software you want to build..."
+
+Buttons
+
+Generate Architecture
+
+Improve Prompt
+
+Clear
+
+When AI is generating,
+
+show progress.
+
+Never show a loading spinner.
+
+Instead show architecture construction happening live.
+
+---
+
+# VISUAL STYLE
+
+Background
+
+Soft Cream
+
+Grid
+
+Light Yellow
+
+Cards
+
+Green
+
+Blue
+
+Yellow
+
+Red
+
+White
+
+Borders
+
+Black
+
+Shadow
+
+Black
+
+Rounded Corners
+
+16px
+
+Borders
+
+4px
+
+Shadows
+
+6px Offset
+
+Large Padding
+
+Generous Whitespace
+
+---
+
+# TYPOGRAPHY
+
+Use
+
+Space Grotesk
+
+or
+
+Outfit
+
+Large Titles
+
+Bold Headings
+
+Comfortable Body Text
+
+Everything should be easy to scan.
+
+---
+
+# MICRO INTERACTIONS
+
+Cards lift slightly on hover.
+
+Buttons bounce subtly.
+
+Nodes animate when created.
+
+Connections draw themselves.
+
+AI streams components one by one.
+
+Dragging feels smooth.
+
+Everything should feel premium.
+
+---
+
+# DESIGN SYSTEM
+
+Every UI element should follow the same design language.
+
+Buttons
+
+Cards
+
+Inputs
+
+Dropdowns
+
+Dialogs
+
+Tooltips
+
+Badges
+
+Context Menus
+
+Everything should share
+
+Borders
+
+Radius
+
+Shadow
+
+Typography
+
+Spacing
+
+Colors
+
+Consistency is mandatory.
+
+---
+
+# OUTPUT EXPECTATION
+
+Do not generate random UI.
+
+Think like a Product Designer first.
+
+Explain your design decisions.
+
+Then generate production-ready UI.
+
+The final product should feel polished enough that it could compete with Canva or Figma.
+
+Every screen should be visually striking, memorable, and enjoyable to use.
+```
+
+This prompt is much stronger because it assigns the AI a **senior design role**, defines the **product vision**, **design philosophy**, **UX goals**, **layout**, **behavior**, and **quality bar** before asking it to generate any UI. It consistently produces higher-quality results than prompts that only describe colors and components.

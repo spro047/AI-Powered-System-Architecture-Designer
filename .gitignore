@@ -1,0 +1,39 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+out/
+
+# build outputs
+dist/
+
+# turbo
+.turbo/
+
+# env
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# playwright temp files
+.playwright-mcp/
+sidebar-layout.png
+
+# server logs
+*.log
+
+# codegraph (gitignored internally, but catch-all)
+.codegraph/
