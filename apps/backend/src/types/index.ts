@@ -43,3 +43,23 @@ export interface ArchitectureResult {
   components: AiComponent[];
   connections: AiConnection[];
 }
+
+/** Structured explanation of a generated architecture */
+export interface ComponentExplanation {
+  id: string;
+  label: string;
+  explanation: string;
+}
+
+export interface DesignDecision {
+  topic: string;
+  decision: string;
+  rationale: string;
+}
+
+export interface ArchitectureExplanation {
+  summary: string;
+  patternExplanation: string;
+  componentExplanations: ComponentExplanation[];
+  designDecisions: DesignDecision[];
+}

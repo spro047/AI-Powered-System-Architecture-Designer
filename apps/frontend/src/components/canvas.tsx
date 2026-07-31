@@ -23,7 +23,7 @@ import type {
   ArchitectureNodeData,
 } from "@/components/nodes/types";
 import { CATEGORY_ICONS } from "@/components/nodes/types";
-import { getLayoutedNodes } from "@/lib/layout";
+import { getLayoutedNodes } from "@/lib/layout/index";
 import { NODE_TYPES, getNodeTypeForItem } from "@/components/nodes/node-registry";
 import {
   generateArchitectureFromBackend,
@@ -224,8 +224,10 @@ function Canvas() {
   }, []);
 
   const onAutoLayout = useCallback(() => {
-    setNodes((nds) => getLayoutedNodes(nds, edges) as Node<ArchitectureNodeData>[]);
-  }, [edges, setNodes]);
+    const result = getLayoutedNodes(nodes, edges);
+    setNodes(result.nodes);
+    setEdges(result.edges);
+  }, [nodes, edges, setNodes, setEdges]);
 
   const onNodesDelete = useCallback(
     (deleted: Node[]) => {
@@ -292,17 +294,21 @@ function Canvas() {
         const { nodes: genNodes, edges: genEdges } =
           architectureResultToFlow(result);
 
+        // Run layout engine immediately so nodes appear in clean positions
+        const layoutResult = getLayoutedNodes(genNodes, genEdges);
+
         setNodes([]);
         setEdges([]);
         await new Promise((r) => setTimeout(r, 100));
 
-        for (let i = 0; i < genNodes.length; i++) {
-          setNodes((prev) => [...prev, genNodes[i]!]);
+        // Animate nodes appearing one by one — now in their correct positions
+        for (let i = 0; i < layoutResult.nodes.length; i++) {
+          setNodes((prev) => [...prev, layoutResult.nodes[i]!]);
           await new Promise((r) => setTimeout(r, 250));
         }
 
         await new Promise((r) => setTimeout(r, 150));
-        setEdges(genEdges);
+        setEdges(layoutResult.edges);
 
         if (result.suggestions.length > 0) {
           window.dispatchEvent(
@@ -311,6 +317,18 @@ function Canvas() {
             }),
           );
         }
+
+        // Notify the UI that a fresh architecture was generated
+        window.dispatchEvent(
+          new CustomEvent("architecture-generated", {
+            detail: {
+              pattern: result.pattern,
+              description: result.description,
+              components: result.components,
+              connections: result.connections,
+            },
+          }),
+        );
       } catch (err) {
         const msg = err instanceof Error ? err.message : "Generation failed";
         window.dispatchEvent(

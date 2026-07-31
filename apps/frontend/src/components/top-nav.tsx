@@ -1,10 +1,16 @@
 "use client";
 
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useProject } from "@/components/project-provider";
+import { exportPng, exportJson } from "@/lib/export";
 
 export function TopNav() {
   const {
     title,
+    pattern,
+    description,
+    nodes,
+    edges,
     saving,
     error,
     lastSaved,
@@ -17,6 +23,40 @@ export function TopNav() {
     loading,
   } = useProject();
 
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const exportRef = useRef<HTMLDivElement>(null);
+
+  const closeExport = useCallback(() => setExportOpen(false), []);
+
+  useEffect(() => {
+    if (!exportOpen) return;
+    const handler = (e: MouseEvent) => {
+      if (exportRef.current && !exportRef.current.contains(e.target as Node)) {
+        closeExport();
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [exportOpen, closeExport]);
+
+  const handleExportPng = useCallback(async () => {
+    setExporting(true);
+    closeExport();
+    try {
+      await exportPng(title);
+    } catch {
+      // html-to-image failures surface as console errors; silently handled
+    } finally {
+      setExporting(false);
+    }
+  }, [title, closeExport]);
+
+  const handleExportJson = useCallback(() => {
+    closeExport();
+    exportJson(title, pattern, description, nodes, edges);
+  }, [title, pattern, description, nodes, edges, closeExport]);
+
   const handleSave = () => {
     save();
   };
@@ -25,7 +65,6 @@ export function TopNav() {
     await createNewProject();
   };
 
-  /* Auto-refresh project list on open for project-switcher (future: dropdown) */
   const timeSinceSave = lastSaved
     ? `${Math.round((Date.now() - lastSaved.getTime()) / 1000)}s ago`
     : null;
@@ -88,14 +127,50 @@ export function TopNav() {
           </svg>
           {saving ? "Saving..." : "Save"}
         </button>
-        <button className="neo-btn !px-4 !py-2 !text-sm flex items-center gap-1.5" title="Export">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
-          Export
-        </button>
+        <div ref={exportRef} className="relative">
+          <button
+            onClick={() => setExportOpen((o) => !o)}
+            disabled={exporting}
+            className="neo-btn !px-4 !py-2 !text-sm flex items-center gap-1.5"
+            title="Export"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            {exporting ? "Exporting..." : "Export"}
+          </button>
+          {exportOpen && (
+            <div className="absolute top-full right-0 mt-1 min-w-[160px] bg-neo-cream border-3 border-neo-black rounded-8 shadow-neo z-50 overflow-hidden">
+              <button
+                onClick={handleExportPng}
+                disabled={exporting}
+                className="w-full px-4 py-2.5 text-sm font-semibold text-left flex items-center gap-2 hover:bg-neo-black/5 transition-colors border-b-2 border-neo-black/10"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <circle cx="8.5" cy="8.5" r="1.5" />
+                  <polyline points="21 15 16 10 5 21" />
+                </svg>
+                Export PNG
+              </button>
+              <button
+                onClick={handleExportJson}
+                className="w-full px-4 py-2.5 text-sm font-semibold text-left flex items-center gap-2 hover:bg-neo-black/5 transition-colors"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                  <polyline points="14 2 14 8 20 8" />
+                  <line x1="16" y1="13" x2="8" y2="13" />
+                  <line x1="16" y1="17" x2="8" y2="17" />
+                  <polyline points="10 9 9 9 8 9" />
+                </svg>
+                Export JSON
+              </button>
+            </div>
+          )}
+        </div>
         <span className="w-px h-6 bg-neo-black/30 mx-1" />
         <button className="neo-btn !px-3 !py-2 !text-sm" title="Undo">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

@@ -50,6 +50,7 @@ export interface ProjectDetail {
   ownerId: string;
   components: BackendComponent[];
   connections: BackendConnection[];
+  explanation: ArchitectureExplanation | null;
   versions: unknown[];
   createdAt: string;
   updatedAt: string;
@@ -67,6 +68,7 @@ export interface SaveCanvasInput {
   pattern?: string;
   components: BackendComponent[];
   connections: BackendConnection[];
+  explanation?: ArchitectureExplanation;
 }
 
 export interface CreateVersionInput {
@@ -168,4 +170,56 @@ export const api = {
   getLibrary(): Promise<unknown> {
     return request("/api/components");
   },
+
+  /* Architecture explanation */
+  explainArchitecture(input: ExplainArchitectureInput): Promise<ArchitectureExplanation> {
+    return request("/api/architecture/explain", {
+      method: "POST",
+      body: JSON.stringify(input),
+    });
+  },
 };
+
+/* ── Architecture Explanation types ── */
+
+export interface ExplainComponentInput {
+  id: string;
+  type: string;
+  label: string;
+  description: string;
+}
+
+export interface ExplainConnectionInput {
+  id: string;
+  sourceId: string;
+  targetId: string;
+  label: string;
+  type: string;
+}
+
+export interface ExplainArchitectureInput {
+  projectId: string;
+  pattern: string;
+  description: string;
+  components: ExplainComponentInput[];
+  connections: ExplainConnectionInput[];
+}
+
+export interface ComponentExplanation {
+  id: string;
+  label: string;
+  explanation: string;
+}
+
+export interface DesignDecision {
+  topic: string;
+  decision: string;
+  rationale: string;
+}
+
+export interface ArchitectureExplanation {
+  summary: string;
+  patternExplanation: string;
+  componentExplanations: ComponentExplanation[];
+  designDecisions: DesignDecision[];
+}

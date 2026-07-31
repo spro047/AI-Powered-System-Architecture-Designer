@@ -6,7 +6,7 @@
 
 import type { Node, Edge } from "@xyflow/react";
 import type { ArchitectureNodeData, ArchitectureCategory } from "@/components/nodes/types";
-import type { BackendComponent, BackendConnection } from "./api";
+import type { BackendComponent, BackendConnection, ArchitectureExplanation } from "./api";
 import { getNodeTypeForItem } from "@/components/nodes/node-registry";
 import { CATEGORY_ICONS } from "@/components/nodes/types";
 
@@ -222,6 +222,7 @@ export function buildCanvasPayload(
   pattern: string | null | undefined,
   nodes: Node<ArchitectureNodeData>[],
   edges: Edge[],
+  explanation?: ArchitectureExplanation,
 ) {
   return {
     title,
@@ -229,6 +230,7 @@ export function buildCanvasPayload(
     ...(pattern !== undefined ? { pattern: pattern ?? undefined } : {}),
     components: nodes.map(nodeToComponent),
     connections: edges.map(edgeToConnection),
+    ...(explanation !== undefined ? { explanation } : {}),
   };
 }
 

@@ -69,6 +69,7 @@ const projectSchema = new mongoose.Schema(
     connections: { type: [connectionSchema], default: [] },
     versions: { type: [versionSchema], default: [] },
     aiGenerationHistory: { type: [aiHistorySchema], default: [] },
+    explanation: { type: mongoose.Schema.Types.Mixed, default: null },
   },
   { timestamps: true },
 );

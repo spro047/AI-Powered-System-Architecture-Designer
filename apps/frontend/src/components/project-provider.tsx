@@ -11,7 +11,7 @@ import {
 } from "react";
 import type { Node, Edge } from "@xyflow/react";
 import type { ArchitectureNodeData } from "@/components/nodes/types";
-import { api, type ProjectDetail, type ProjectSummary } from "@/lib/api";
+import { api, type ProjectDetail, type ProjectSummary, type ArchitectureExplanation } from "@/lib/api";
 import { buildCanvasPayload, projectToCanvas } from "@/lib/mapping";
 
 /* ── State shape ── */
@@ -34,6 +34,15 @@ export interface ProjectState {
   lastSaved: Date | null;
   /** User's project list */
   projectList: ProjectSummary[];
+  /** Architecture explanation (from AI) */
+  explanation: ArchitectureExplanation | null;
+  /** The last generated architecture data (for generating explanation) */
+  lastArchitectureData: {
+    pattern: string;
+    description: string;
+    components: Array<{ id: string; type: string; label: string; description: string }>;
+    connections: Array<{ id: string; sourceId: string; targetId: string; label: string; type: string }>;
+  } | null;
 }
 
 /* ── Context ── */
@@ -47,12 +56,13 @@ interface ProjectContextValue extends ProjectState {
   setTitle: (title: string) => void;
   setDescription: (description: string | null) => void;
   setPattern: (pattern: string | null) => void;
+  setExplanation: (explanation: ArchitectureExplanation | null) => void;
+  setLastArchitectureData: (data: ProjectState["lastArchitectureData"]) => void;
   save: () => Promise<void>;
   loadProject: (id: string) => Promise<void>;
   createNewProject: (title?: string) => Promise<string>;
   loadProjectList: () => Promise<void>;
   dismissError: () => void;
-  /** Clear the canvas without saving */
   resetCanvas: () => void;
 }
 
@@ -81,6 +91,8 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
     error: null,
     lastSaved: null,
     projectList: [],
+    explanation: null,
+    lastArchitectureData: null,
   });
 
   /* Derived setters — support both direct values and updater callbacks */
@@ -116,6 +128,17 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
     setState((s) => ({ ...s, pattern }));
   }, []);
 
+  const setExplanation = useCallback((explanation: ArchitectureExplanation | null) => {
+    setState((s) => ({ ...s, explanation }));
+  }, []);
+
+  const setLastArchitectureData = useCallback(
+    (data: ProjectState["lastArchitectureData"]) => {
+      setState((s) => ({ ...s, lastArchitectureData: data }));
+    },
+    [],
+  );
+
   const dismissError = useCallback(() => {
     setState((s) => ({ ...s, error: null }));
   }, []);
@@ -142,6 +165,7 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
         current.pattern,
         current.nodes,
         current.edges,
+        current.explanation ?? undefined,
       );
 
       if (current.projectId) {
@@ -188,6 +212,7 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
         pattern: project.pattern,
         nodes,
         edges,
+        explanation: (project as any).explanation ?? null,
         lastSaved: new Date(project.updatedAt),
         loading: false,
       }));
@@ -271,6 +296,8 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
     setTitle,
     setDescription,
     setPattern,
+    setExplanation,
+    setLastArchitectureData,
     save,
     loadProject,
     createNewProject,

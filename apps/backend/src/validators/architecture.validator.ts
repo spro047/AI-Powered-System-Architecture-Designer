@@ -45,3 +45,15 @@ const architectureResultSchema = z.object({
 export function parseArchitectureResult(raw: unknown): ArchitectureResult {
   return architectureResultSchema.parse(raw);
 }
+
+/* ── Explain schema ── */
+
+export const explainArchitectureSchema = z.object({
+  projectId: z.string().min(1, "Project ID is required"),
+  pattern: z.string().min(1),
+  description: z.string(),
+  components: z.array(aiComponentSchema).min(1),
+  connections: z.array(aiConnectionSchema),
+});
+
+export type ExplainArchitectureInput = z.infer<typeof explainArchitectureSchema>;
